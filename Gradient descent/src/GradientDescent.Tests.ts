@@ -1,25 +1,25 @@
 module GradientDescent.Tests {
     export function RunAll() {
-        UnitTesting.Success('GradientDescent.Evaluate', TestEvaluate)
+        UnitTesting.Success('GradientDescent.Hypothesis', testHypothesis)
     }
-
-    function TestEvaluate(msg: string) {
+    
+    function testHypothesis(msg: string) {
         let msgGen = UnitTesting.GenMsgGen(msg, 1)
         let assert = UnitTesting.GenAsserter(msgGen)
         let errorTest = UnitTesting.GenErrorTester(msgGen)
         return [
-            assert(Evaluate([1, 1, 1], [1, 1, 1, 1]) === 4),
-            assert(Evaluate([1, 2, 3], [1, 1, 1, 1]) === 7),
-            assert(Evaluate([1, 2, 3], [10, 2, 3, 4]) === 30),
-            assert(Evaluate([1, 2, 3], [-10, 2, 3, 4]) === 10),
-            assert(Evaluate([1, -2, 3], [10, 2, 3, 4]) === 18),
-            assert(Evaluate([], [1]) === 1),
-            assert(Evaluate([], [8]) === 8),
-            assert(Evaluate([], [13]) === 13),
-            errorTest(() => { Evaluate([], []) }),
-            errorTest(() => { Evaluate([1, 1, 1, 1], [1, 1]) }),
-            errorTest(() => { Evaluate([1, 1, 1, 1], [1, 1, 1]) }),
-            errorTest(() => { Evaluate([1, 1, 1, 1], [1, 1, 1, 1]) }),
+            assert(Hypothesis([1, 1, 1, 1])([1, 1, 1]) === 4),
+            assert(Hypothesis([1, 1, 1, 1])([1, 2, 3]) === 7),
+            assert(Hypothesis([10, 2, 3, 4])([1, 2, 3]) === 30),
+            assert(Hypothesis([-10, 2, 3, 4])([1, 2, 3]) === 10),
+            assert(Hypothesis([10, 2, 3, 4])([1, -2, 3]) === 18),
+            assert(Hypothesis([1])([]) === 1),
+            assert(Hypothesis([8])([]) === 8),
+            assert(Hypothesis([13])([]) === 13),
+            errorTest(() => { Hypothesis([])([]) }),
+            errorTest(() => { Hypothesis([1, 1])([1, 1, 1, 1]) }),
+            errorTest(() => { Hypothesis([1, 1, 1])([1, 1, 1, 1]) }),
+            errorTest(() => { Hypothesis([1, 1, 1, 1])([1, 1, 1, 1]) }),
         ].every(test => test)
     }
 }
