@@ -11,20 +11,37 @@ module GradientDescent {
         }
     }
 
-    type SquaredErrorSig = (xs: number[], y: number) => number
-    type DefSquaredErrorSig = (h: HypothesisSig) => SquaredErrorSig
-    export let DefSquaredError: DefSquaredErrorSig = h => (xs, y) => (h(xs) - y)**2
-    
+    type ErrorSig = (xs: number[], y: number) => number
+    type DefErrorSig = (h: HypothesisSig) => ErrorSig
+    export let DefError: DefErrorSig = h => (xs, y) => h(xs) - y
+
     type CostSig = (ws: number[]) => number
-    type DefCostSig = (xss:number[][], ys:number[]) => CostSig
-    export let DefCost:DefCostSig = (xss, ys) => {
+    type DefCostSig = (xss: number[][], ys: number[]) => CostSig
+    export let DefCost: DefCostSig = (xss, ys) => {
         if (xss.length !== ys.length)
             throw Error("GradientDescent.DefCost: xss.length !== ys.length")
         return ws => {
             let h = DefHypothesis(ws)
-            let error = DefSquaredError(h)
-            let sumSquared = xss.reduce((acc, xs, i) => acc + error(xs, ys[i]), 0)
-            let avg = sumSquared / ys.length
+            let error = DefError(h)
+            let sum = xss.reduce((acc, xs, i) => acc + error(xs, ys[i]) ** 2, 0)
+            let avg = sum / (2 * ys.length)
+            return avg
+        }
+    }
+
+    type CostDerivativeSig = (ws: number[], j: number) => number
+    type DefCostDerivativeSig = (xss: number[][], ys: number[]) => CostDerivativeSig
+    export let DefCostDerivative: DefCostDerivativeSig = (xss, ys) => {
+        if (xss.length !== ys.length)
+            throw Error("GradientDescent.DefCostDerivative: xss.length !== ys.length")
+        return (ws, j) => {
+            if (j < 0 || j > ws.length - 1)
+                throw Error("GradientDescent.CostDerivative: j < 0 || j > ws.length - 1")
+            let h = DefHypothesis(ws)
+            let error = DefError(h)
+            let sum = xss.reduce((acc, xs, i) => acc + error(xs, ys[i]) * ([1].concat(xs))[j], 0)
+            let avg = sum / (ys.length)
+
             return avg
         }
     }
