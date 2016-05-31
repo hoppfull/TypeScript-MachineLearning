@@ -12,9 +12,18 @@
 </head>
 
 <body>
+    <canvas id="Canvas" width="480" height="320" />
+
+    <style>
+        #Canvas {
+            border: 1px dashed gray;
+            background: lightgray;
+        }
+    </style>
+
     <script>
         Program.RunTests()
-        Program.Run()
+        Program.Run(document.getElementById("Canvas"))
     </script>
 </body>
 

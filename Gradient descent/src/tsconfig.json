@@ -5,5 +5,8 @@
         "noImplicitAny": true,
         "sourceMap": false,
         "outDir": "../bin"
-    }
+    },
+    "exclude": [
+        "GradientDescent.Tests.ts"
+    ]
 }
