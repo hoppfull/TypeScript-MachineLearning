@@ -3,6 +3,6 @@ module Program {
     }
 
     export function RunTests() {
-        GradientDescent.Tests.RunAll()
+        SomeModule.Tests.RunAll()
     }
 }
