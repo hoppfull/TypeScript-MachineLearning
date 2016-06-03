@@ -4,26 +4,17 @@
 
 <head>
     <meta charset="utf-8" />
-    <title>Gradient descent</title>
+    <title>Simple unit test framework</title>
     <script src="bin/main.js"></script>
-    <script src="bin/GradientDescent.js"></script>
-    <script src="bin/GradientDescent.Tests.js"></script>
+    <script src="bin/SomeModule.js"></script>
+    <script src="bin/SomeModule.Tests.js"></script>
     <script src="bin/UnitTesting.js"></script>
 </head>
 
 <body>
-    <canvas id="Canvas" width="480" height="320" />
-
-    <style>
-        #Canvas {
-            border: 1px dashed gray;
-            background: lightgray;
-        }
-    </style>
-
     <script>
         Program.RunTests()
-        Program.Run(document.getElementById("Canvas"))
+        Program.Run()
     </script>
 </body>
 
