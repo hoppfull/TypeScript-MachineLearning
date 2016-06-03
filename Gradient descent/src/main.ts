@@ -8,4 +8,8 @@ module Program {
         Plotting.DrawPoint(-120, 70, 'cyan')
         Plotting.DrawCross(-100, -200, 10, 5, 'black')
     }
+
+    export function RunTests() {
+        SomeModule.Tests.RunAll()
+    }
 }
