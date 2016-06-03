@@ -12,10 +12,6 @@ module Program {
             .map((_, i) => 50 + i * canvas.height / (n * 2) + Math.random() * 80)
 
         xss.forEach((xs, i) => drawPoint(ctx, xs[0], ys[i]))
-        
-        let [m, k] = GradientDescent2.Optimize(xss, ys, [200, 0], 0.01)
-        drawLine(ctx, k, m)
-        console.log(m, k)
     }
 
     function flipCanvasYAxis(ctx: CanvasRenderingContext2D) {
