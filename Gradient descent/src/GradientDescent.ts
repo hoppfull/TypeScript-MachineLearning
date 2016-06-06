@@ -20,10 +20,10 @@ module GradientDescent {
         FP.zipReduce((acc, xs, y) => acc.add(costPrim(xs, ts, y)), FP.zeros(ts.length), xss, ys).div(ys.length)
 
     export function Optimize(xss: number[][], ys: number[], ts: number[]) {
-        const X = xss.map(xs => [0].concat(xs))
+        const X = xss.map(xs => [1].concat(xs))
 
-        for (let i = 0; i < 1000; i++) {
-            
-        }
+        for (let i = 1000; i--;)
+            ts = ts.sub(avgCostPrim(X, ts, ys).mul(0.1))
+        return ts
     }
 }
