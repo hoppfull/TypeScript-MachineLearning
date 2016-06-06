@@ -1,22 +1,22 @@
 module Program {
     export function Run(canvas: HTMLCanvasElement) {
         Plotting.Init(canvas.getContext('2d'))
-        let xss = [[3], [5]]
-        let ys = [5, 4]
-        let os = [6.5, -0.5]
-
-        Plotting.PlotLine(os[1], os[0], 'green')
-        Plotting.DrawPoint(xss[0][0], ys[0], 'blue')
-        Plotting.DrawPoint(xss[0][1], ys[1], 'blue')
+        let m = 300
+        let xss = FP.rangeMap(m, i => [-150 + i * 1 + Math.random() * 30])
+        let ys = FP.rangeMap(m, i => -30 + i * 0.2 + Math.random() * 100)
+        //let ys = FP.rangeMap(m, i => -30 + i * -2 + Math.random() * 20)
+        //let ys = FP.rangeMap(m, i => -50 + i * 0 + Math.random() * 20)
+        
+        FP.zipMap((xs, y) => {
+            Plotting.DrawPoint(xs[0], y, 'cyan')
+        }, xss, ys)
 
         let scale = GradientDescent.featureAvgAndStd(xss)
 
         let ts = GradientDescent.Optimize(GradientDescent.featurePreprocessing(xss, scale), ys, [0, 0])
-        console.log(ts)
         let ws = GradientDescent.weightPostprocessing(ts, scale)
-        console.log(ws)
-        
-        Plotting.PlotLine(ws[1], ws[0], 'red')
+
+        Plotting.PlotLine(ws[1], ws[0], 'chartreuse')
     }
 
     export function RunTests() {

@@ -19,12 +19,6 @@ module GradientDescent {
     export const avgCostPrim: avgCostPrimSig = (xss, ws, ys) =>
         FP.zipReduce((acc, xs, y) => acc.addv(costPrim(xs, ws, y)), FP.zeros(ws.length), xss, ys).divs(ys.length)
 
-    type stdSig = (ns: number[]) => number
-    export const std: stdSig = ns => {
-        const avg = ns.avg()
-        return Math.sqrt(ns.reduce((acc, n) => acc + ((n - avg) ** 2), 0) / ns.length)
-    }
-
     type featureScaleSig = { mu: number[], sigma: number[] }
     type featureAvgAndStdSig = (xss: number[][]) => featureScaleSig
     export const featureAvgAndStd: featureAvgAndStdSig = xss => {
@@ -48,26 +42,28 @@ module GradientDescent {
 
     export function Optimize(xss: number[][], ys: number[], ws: number[]) {
         const X = xss.map(xs => [1].concat(xs))
+
         let isDone = false
         let n = 0
-        let a = 1
+        let a = 0.9
 
         let cost0 = 0
         let cost1 = 0
 
         while (!isDone) {
             cost0 = cost1
-            let ws_ = FP.zipMap((w0, w1) => w0 - a * w1, ws, avgCostPrim(X, ws, ys))
-            cost1 = avgCost(X, ws_, ys)
+            ws = FP.zipMap((w0, w1) => w0 - a * w1, ws, avgCostPrim(X, ws, ys))
+            cost1 = avgCost(X, ws, ys)
+
             if (cost1 <= cost0) {
-                a = a * 1.5
-                ws = ws_
-                isDone = cost0 - cost1 < 0.00001
+                a *= 1.1
+                isDone = cost0 - cost1 < 0.000001
             } else
-                a = a * 0.5
+                a *= 0.8
             n++
         }
         console.log("#iterations:", n)
+        console.log("#learning rate:", a)
         return ws
     }
 }

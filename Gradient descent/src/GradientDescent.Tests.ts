@@ -4,7 +4,6 @@ module GradientDescent.Tests {
         UnitTesting.Success('GradientDescent.costPrim', testCostPrim)
         UnitTesting.Success('GradientDescent.avgCost', testAvgCost)
         UnitTesting.Success('GradientDescent.avgCostPrim', testAvgCostPrim)
-        UnitTesting.Success('GradientDescent.std', testStd)
         UnitTesting.Success('GradientDescent.featureAvgAndStd', testfeatureAvgAndStd)
     }
 
@@ -93,12 +92,6 @@ module GradientDescent.Tests {
                 [1, 7], // (8 + 35 - 3) * 7 = 280
                 [1, 3] // (8 + 15 + 1) * 3 = 72
             ], [8, 5], [3, -1])[1] === 176) // 352 / 2 = 176
-        ].every(test => test)
-    }
-
-    let testStd: UnitTesting.UnitTestSig = (assert, errorTest) => {
-        return [
-            assert(std([2, 4, 4, 4, 5, 5, 7, 9]) === 2)
         ].every(test => test)
     }
 
