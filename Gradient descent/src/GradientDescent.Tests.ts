@@ -4,6 +4,8 @@ module GradientDescent.Tests {
         UnitTesting.Success('GradientDescent.costPrim', testCostPrim)
         UnitTesting.Success('GradientDescent.avgCost', testAvgCost)
         UnitTesting.Success('GradientDescent.avgCostPrim', testAvgCostPrim)
+        UnitTesting.Success('GradientDescent.std', testStd)
+        UnitTesting.Success('GradientDescent.featureAvgAndStd', testfeatureAvgAndStd)
     }
 
     let testCost: UnitTesting.UnitTestSig = (assert, errorTest) => {
@@ -91,6 +93,37 @@ module GradientDescent.Tests {
                 [1, 7], // (8 + 35 - 3) * 7 = 280
                 [1, 3] // (8 + 15 + 1) * 3 = 72
             ], [8, 5], [3, -1])[1] === 176) // 352 / 2 = 176
+        ].every(test => test)
+    }
+
+    let testStd: UnitTesting.UnitTestSig = (assert, errorTest) => {
+        return [
+            assert(std([2, 4, 4, 4, 5, 5, 7, 9]) === 2)
+        ].every(test => test)
+    }
+
+    let testfeatureAvgAndStd: UnitTesting.UnitTestSig = (assert, errorTest) => {
+        return [
+            (() => {
+                let {mu, sigma} = featureAvgAndStd([
+                    [2], [4], [4], [4], [5], [5], [7], [9]
+                ])
+                return mu[0] === 5 && sigma[0] === 2
+            })(),
+            (() => {
+                let {mu, sigma} = featureAvgAndStd([
+                    [1, 1]
+                ])
+                return mu[0] === 1, mu[1] === 1 && sigma[0] === 0 && sigma[1] === 0
+            })(),
+            (() => {
+                let {mu, sigma} = featureAvgAndStd([
+                    [1, 1],
+                    [2, 1],
+                    [3, 1],
+                ])
+                return mu[0] === 2, mu[1] === 1 && sigma[0] === Math.sqrt(2 / 3) && sigma[1] === 0
+            })()
         ].every(test => test)
     }
 }
