@@ -48,9 +48,26 @@ module GradientDescent {
 
     export function Optimize(xss: number[][], ys: number[], ws: number[]) {
         const X = xss.map(xs => [1].concat(xs))
+        let isDone = false
+        let n = 0
+        let a = 1
 
-        for (let i = 50; i--;)
-            ws = ws.subv(avgCostPrim(X, ws, ys).muls(0.5))
+        let cost0 = 0
+        let cost1 = 0
+
+        while (!isDone) {
+            cost0 = cost1
+            let ws_ = FP.zipMap((w0, w1) => w0 - a * w1, ws, avgCostPrim(X, ws, ys))
+            cost1 = avgCost(X, ws_, ys)
+            if (cost1 <= cost0) {
+                a = a * 1.5
+                ws = ws_
+                isDone = cost0 - cost1 < 0.00001
+            } else
+                a = a * 0.5
+            n++
+        }
+        console.log("#iterations:", n)
         return ws
     }
 }

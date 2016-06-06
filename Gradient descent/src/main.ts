@@ -14,7 +14,7 @@ module Program {
         let ts = GradientDescent.Optimize(GradientDescent.featurePreprocessing(xss, scale), ys, [0, 0])
         console.log(ts)
         let ws = GradientDescent.weightPostprocessing(ts, scale)
-        console.log(ws);
+        console.log(ws)
         
         Plotting.PlotLine(ws[1], ws[0], 'red')
     }
