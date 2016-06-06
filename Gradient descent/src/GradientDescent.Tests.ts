@@ -3,6 +3,7 @@ module GradientDescent.Tests {
         UnitTesting.Success('GradientDescent.cost', testCost)
         UnitTesting.Success('GradientDescent.costPrim', testCostPrim)
         UnitTesting.Success('GradientDescent.avgCost', testAvgCost)
+        UnitTesting.Success('GradientDescent.avgCostPrim', testAvgCostPrim)
     }
 
     let testCost: UnitTesting.UnitTestSig = (assert, errorTest) => {
@@ -48,6 +49,48 @@ module GradientDescent.Tests {
                 [1, 1],// (2 - 2) ** 2 / 2 = 0
                 [1, 1] // (2 - 4) ** 2 / 2 = 2
             ], [1, 1], [0, 2, 4]) === 4 / 3) // (2 + 2 + 0) / 3 = 4/3
+        ].every(test => test)
+    }
+
+    let testAvgCostPrim: UnitTesting.UnitTestSig = (assert, errorTest) => {
+        return [
+            assert(avgCostPrim([
+                [1, 1] // (2 - 0) * 1 = 2
+            ], [1, 1], [0])[0] === 2), // 2 / 1
+            assert(avgCostPrim([
+                [1, 1] // (2 - 0) * 1 = 2
+            ], [1, 1], [0])[1] === 2), // 2 / 1
+            assert(avgCostPrim([
+                [1, 3] // (7 + 12 - 3) * 1 = 16
+            ], [7, 4], [3])[0] === 16), // 16 / 1
+            assert(avgCostPrim([
+                [1, 3] // (7 + 12 - 3) * 3 = 48
+            ], [7, 4], [3])[1] === 48), // 48 / 1
+            assert(avgCostPrim([
+                [1, 4, 9] // (2 - 20 + 18 + 5) * 1 = 5
+            ], [2, -5, 2], [-5])[0] === 5), // 5 / 1
+            assert(avgCostPrim([
+                [1, 4, 9] // (2 - 20 + 18 + 5) * 4 = 20
+            ], [2, -5, 2], [-5])[1] === 20), // 20 / 1
+            assert(avgCostPrim([
+                [1, 4, 9] // (2 - 20 + 18 + 5) * 9 = 45
+            ], [2, -5, 2], [-5])[2] === 45), // 48 / 1
+            assert(avgCostPrim([
+                [1, 1], // (1 + 1 - 0) * 1 = 2
+                [1, 1] // (1 + 1 - 0) * 1 = 2
+            ], [1, 1], [0, 0])[0] === 2), // 4 / 2 = 2
+            assert(avgCostPrim([
+                [1, 1], // (1 + 1 - 0) * 1 = 2
+                [1, 1] // (1 + 1 - 0) * 1 = 2
+            ], [1, 1], [0, 0])[1] === 2), // 4 / 2 = 2
+            assert(avgCostPrim([
+                [1, 7], // (8 + 35 - 3) * 1 = 40
+                [1, 3] // (8 + 15 + 1) * 1 = 24
+            ], [8, 5], [3, -1])[0] === 32), // 64 / 2 = 32
+            assert(avgCostPrim([
+                [1, 7], // (8 + 35 - 3) * 7 = 280
+                [1, 3] // (8 + 15 + 1) * 3 = 72
+            ], [8, 5], [3, -1])[1] === 176) // 352 / 2 = 176
         ].every(test => test)
     }
 }

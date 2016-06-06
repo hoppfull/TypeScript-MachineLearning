@@ -19,14 +19,6 @@ module FP {
         return acc
     }
 
-    export function map<T0, T1>(f: (x: T0) => T1, xs: T0[]): T1[] {
-        let i = xs.length
-        let newArray: T1[] = new Array(i)
-        while (i--)
-            newArray[i] = f(xs[i])
-        return newArray
-    }
-
     export function range(i: number): number[] {
         let newArray: number[] = new Array(i)
         while (i--)
@@ -38,6 +30,13 @@ module FP {
         let newArray: T[] = new Array(i)
         while (i--)
             newArray[i] = f(i)
+        return newArray
+    }
+
+    export function zeros(i: number): number[] {
+        let newArray: number[] = new Array(i)
+        while (i--)
+            newArray[i] = 0
         return newArray
     }
 }
